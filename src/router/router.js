@@ -43,7 +43,7 @@ const router = new VueRouter({
       name: 'contact',
       component: () => import('@/views/Contact.vue'),
       meta: {
-        pageTitle: 'contact',
+        pageTitle: 'Contact',
         breadcrumb: [
           {
             text: 'contact',
@@ -95,23 +95,17 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/second-page',
-      name: 'second-page',
-      component: () => import('@/views/SecondPage.vue'),
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/authentificator/Login.vue'),
       meta: {
-        pageTitle: 'Second Page',
-        breadcrumb: [
-          {
-            text: 'Second Page',
-            active: true,
-          },
-        ],
+        layout: 'full',
       },
     },
     {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/views/Login.vue'),
+      path: '/register',
+      name: 'register',
+      component: () => import('@/views/authentificator/Register.vue'),
       meta: {
         layout: 'full',
       },
