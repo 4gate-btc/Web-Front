@@ -5,7 +5,7 @@
       <validation-observer ref="generalValidation">
         <b-form @submit.prevent>
           <b-row>
-            <b-col cols="6">
+            <b-col col-lg-6 col-md-12 col-sm-12>
               <!-- email user -->
               <b-form-group label="Email" label-for="user_email">
                 <b-input-group class="input-group-merge">
@@ -43,18 +43,21 @@
               </b-form-group>
 
               <!-- 2FA -->
-              <b-form-group>
-                <v-select v-model="selected1" :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'" :options="books" label="title">
-                  <template #option="{ title, icon }">
-                    <feather-icon :icon="icon" size="16" class="align-middle mr-50"/>
-                    <span> {{ title }}</span>
-                  </template>
-                </v-select>
+                <b-form-group label="2FA" label-for="country">
+                <v-select id="country" v-model="two_FA" :options="two_FAValues" :selectable="option => ! option.value.includes('select_value')" label="text"/>
               </b-form-group>
+            </b-col>
+            <b-col col-lg-6 col-md-12 col-sm-12>
+              <div class="card bg-primary text-white">
+                <div class="card-body">
+                  <h4 class="card-title text-white"> Why use 2FA Protection ?</h4>
+                  <p class="card-text"> Some quick example text to build on the card title and make up. </p>
+                </div>
+              </div>
             </b-col>
             <!-- reset and submit -->
             <b-col cols="12">
-              <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" @click="generalForm" variant="primary" class="mr-1">Submit </b-button>
+              <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" @click="generalValidation" variant="primary" class="mr-1">Submit </b-button>
               <b-button v-ripple.400="'rgba(186, 191, 199, 0.15)'" type="reset" variant="outline-secondary">Reset </b-button>
             </b-col>
           </b-row>
@@ -62,28 +65,94 @@
       </validation-observer>
     </b-tab>
     <b-tab title="API">
-      <b-card-text>
-        Sweet fruitcake cheesecake biscuit cotton candy. Cookie powder marshmallow donut. Biscuit ice cream halvah candy canes bear claw ice cream cake chocolate bar donut. Toffee cotton candy liquorice. Oat cake lemon drops gingerbread dessert caramels. Sweet dessert jujubes powder sweet sesame snaps.
-      </b-card-text>
-      <b-card-text>
-        Candy cookie sweet roll bear claw sweet roll. Cake tiramisu cotton candy gingerbread cheesecake toffee cake. Cookie liquorice dessert candy canes jelly.
-      </b-card-text>
+      <b-form @submit.prevent>
+        <b-row>
+          <b-col col-lg-6 col-md-12 col-sm-12>
+            <!-- API Username -->
+            <b-form-group label="API Key" label-for="api_key">
+              <b-input-group class="input-group-merge">
+                <b-input-group-prepend is-text>
+                  <feather-icon icon="UserIcon"/>
+                </b-input-group-prepend>
+                <b-form-input id="api_key" v-model="api_key" type="text" name="api_key" readonly/>
+              </b-input-group>
+            </b-form-group>
+            <!-- API Password -->
+            <b-form-group label="API Password" label-for="api_password">
+              <b-input-group class="input-group-merge">
+                <b-input-group-prepend is-text>
+                  <feather-icon icon="LockIcon"/>
+                </b-input-group-prepend>
+                <b-form-input id="api_password" v-model="api_password" type="text" name="api_password" readonly/>
+              </b-input-group>
+            </b-form-group>
+            <!-- API Permission -->
+            <b-form-group label="Permission">
+              <b-form-checkbox v-model="allow_withdraw" class="custom-control-primary ml-1">
+                Allow withdraw
+              </b-form-checkbox>
+            </b-form-group>
+          </b-col>
+          <b-col col-lg-6 col-md-12 col-sm-12>
+            <div class="card bg-primary text-white">
+              <div class="card-body">
+                <h4 class="card-title text-white"> Checkout API Documentation</h4>
+                <p class="card-text"> Some quick example text to build on the card title and make up. </p>
+              </div>
+            </div>
+          </b-col>
+          <!-- reset and submit -->
+          <b-col cols="12">
+            <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" @click="APIValidation" variant="primary" class="mr-1">Submit </b-button>
+            <b-button v-ripple.400="'rgba(186, 191, 199, 0.15)'" type="reset" variant="outline-secondary">Reset </b-button>
+          </b-col>
+        </b-row>
+      </b-form>
     </b-tab>
     <b-tab title="Notifications">
-      <b-card-text>
-        Sweet fruitcake cheesecake biscuit cotton candy. Cookie powder marshmallow donut. Biscuit ice cream halvah candy canes bear claw ice cream cake chocolate bar donut. Toffee cotton candy liquorice. Oat cake lemon drops gingerbread dessert caramels. Sweet dessert jujubes powder sweet sesame snaps.
-      </b-card-text>
-      <b-card-text>
-        Candy cookie sweet roll bear claw sweet roll. Cake tiramisu cotton candy gingerbread cheesecake toffee cake. Cookie liquorice dessert candy canes jelly.
-      </b-card-text>
+      <b-form @submit.prevent>
+        <b-row>
+          <b-col col-lg-6 col-md-12 col-sm-12>
+            <!-- Notify Activity -->
+            <b-form-group label="Activity">
+              <b-form-checkbox v-model="connect" class="custom-control-primary ml-1">
+                Email me when someone connect to my account
+              </b-form-checkbox>
+              <b-form-checkbox v-model="withdraw" class="custom-control-primary ml-1">
+                Email me when someone withdraw my fund
+              </b-form-checkbox>
+            </b-form-group>
+            <!-- Notify API -->
+            <b-form-group label="API">
+              <b-form-checkbox v-model="payment" class="custom-control-primary ml-1">
+                Email me when someone done success payment
+              </b-form-checkbox>
+            </b-form-group>
+          </b-col>
+          <b-col col-lg-6 col-md-12 col-sm-12>
+            <div class="card bg-primary text-white">
+              <div class="card-body">
+                <h4 class="card-title text-white"> Checkout API Documentation</h4>
+                <p class="card-text"> Some quick example text to build on the card title and make up. </p>
+              </div>
+            </div>
+          </b-col>
+          <!-- reset and submit -->
+          <b-col cols="12">
+            <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" @click="NotificationsValidation" variant="primary" class="mr-1">Submit </b-button>
+            <b-button v-ripple.400="'rgba(186, 191, 199, 0.15)'" type="reset" variant="outline-secondary">Reset </b-button>
+          </b-col>
+        </b-row>
+      </b-form>
     </b-tab>
   </b-tabs>
 </template>
 
 <script>
+import vSelect from 'vue-select'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import {
-  BTabs, BTab, BCardText, BForm, BRow, BCol, BButton, BFormGroup, BInputGroup, BInputGroupPrepend, BFormInput,
+  BTabs, BTab, BForm, BRow, BCol, BButton, BFormGroup, BInputGroup, BInputGroupPrepend, BFormInput, BFormCheckbox,
 } from 'bootstrap-vue'
 import { required, email } from '@validations'
 
@@ -91,7 +160,6 @@ export default {
   components: {
     BTabs,
     BTab,
-    BCardText,
     BForm,
     BRow,
     BCol,
@@ -100,26 +168,47 @@ export default {
     BInputGroup,
     BInputGroupPrepend,
     BFormInput,
+    BFormCheckbox,
     ValidationProvider,
     ValidationObserver,
+    vSelect,
   },
   data() {
     return {
+      two_FA: '',
+      two_FAValues: [
+        { value: 'yes', text: 'Activate' },
+        { value: 'no', text: 'Disabled' },
+      ],
       user_email: '',
       current_password: '',
       new_password: '',
+      api_password: '',
+      api_key: '',
+      allow_withdraw: false,
+      connect: false,
+      withdraw: false,
+      payment: false,
       required,
       email,
     }
   },
   methods: {
-    generalForm() {
+    generalValidation() {
       this.$refs.generalValidation.validate().then(success => {
         if (success) {
           console.log('coucou')
         }
       })
     },
+    APIValidation() {
+    },
+    NotificationsValidation() {
+    },
   },
 }
 </script>
+
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-select.scss';
+</style>
